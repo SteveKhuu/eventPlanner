@@ -7,6 +7,10 @@
   <strong>Description: </strong>{{ event.description }}
   <br />
   <strong>Category: </strong>{{ event.category }}
+  <br />
+  <strong>Start time: </strong>{{ event.start_datetime }}
+  <br />
+  <strong>End time: </strong>{{ event.end_datetime }}
 </p>
 <!-- <form action="{% url 'update' event.id %}" method="post">
 {% csrf_token %}
