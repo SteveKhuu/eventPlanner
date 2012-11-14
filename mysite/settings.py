@@ -1,4 +1,6 @@
 # Django settings for eventPlanner project.
+import os
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -97,16 +99,16 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'eventPlanner.urls'
+ROOT_URLCONF = 'mysite.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'eventPlanner.wsgi.application'
+WSGI_APPLICATION = 'mysite.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    
+    PROJECT_PATH + '/templates/'
 )
 
 INSTALLED_APPS = (
@@ -120,6 +122,7 @@ INSTALLED_APPS = (
    'django.contrib.admin',
   # Uncomment the next line to enable admin documentation:
    'django.contrib.admindocs',
+   'mysite',
    'eventPlanner',
    'south'
 )
