@@ -33,6 +33,10 @@ class Events(models.Model):
   end_datetime = models.DateTimeField('end datetime')
   created_datetime = models.DateTimeField(default=datetime.now)
   
+  def flag_submitted(self):
+    self.status = 'SB'
+    self.save()
+    
   def is_over(self):
     return timezone.now() >= self.end_datetime
   is_over.admin_order_field = 'start_datetime'

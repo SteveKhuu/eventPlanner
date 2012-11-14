@@ -99,9 +99,11 @@ def send_email(request, event_id):
 #
   attachment_name = '%s.ics' % slugify(event.name + "-" + str(event.start_datetime.year))
   
-  mail = EmailMessage(event.name, event.description, 'Stephen_Khuu@epam.com', ['Stephen_Khuu@epam.com', 'g7khuust@gmail.com'])
+  mail = EmailMessage(event.name, event.description, 'no_reply_not_even_you_Os@epam.com', ['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com'])
   mail.attach(attachment_name, output, 'text/calendar')
   mail.send()
+  
+  event.flag_submitted()
           
   context = {'event': event}
   return render(request, 'events/send_success.html', context)
