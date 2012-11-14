@@ -20,6 +20,11 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eventPlanner.Category'], null=True, blank=True),
                       keep_default=False)
 
+        # Adding field 'Event.status'
+        db.add_column('eventPlanner_event', 'status',
+                      self.gf('django.db.models.fields.CharField')(default='DR', max_length=2),
+                      keep_default=False)
+
 
     def backwards(self, orm):
         # Deleting model 'Category'
@@ -27,6 +32,9 @@ class Migration(SchemaMigration):
 
         # Deleting field 'Event.category'
         db.delete_column('eventPlanner_event', 'category_id')
+
+        # Deleting field 'Event.status'
+        db.delete_column('eventPlanner_event', 'status')
 
 
     models = {
@@ -50,7 +58,8 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'location': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'start_datetime': ('django.db.models.fields.DateTimeField', [], {})
+            'start_datetime': ('django.db.models.fields.DateTimeField', [], {}),
+            'status': ('django.db.models.fields.CharField', [], {'default': "'DR'", 'max_length': '2'})
         }
     }
 

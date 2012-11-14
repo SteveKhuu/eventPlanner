@@ -11,14 +11,27 @@ class Category(models.Model):
     return self.name
   
 class Event(models.Model):
+  
+  EVENT_STATUS = (
+      ('DR', 'Draft'),
+      ('SB', 'Submitted'),
+  )
+  
   name = models.CharField(max_length=200)
   location = models.CharField(max_length=1000)
   description = models.TextField()
   category = models.ForeignKey(Category, blank=True, null=True)
+  status = models.CharField(max_length=2, choices=EVENT_STATUS, default='DR')
   start_datetime = models.DateTimeField('start datetime')
   end_datetime = models.DateTimeField('end datetime')
   created_datetime = models.DateTimeField(default=datetime.now)
-    
+  
+  def is_over(self):
+    return timezone.now() >= self.end_datetime
+  is_over.admin_order_field = 'start_datetime'
+  is_over.boolean = True
+  is_over.short_description = 'Is the event over?'
+  
   def was_published_recently(self):
     return self.created_datetime >= timezone.now() - datetime.timedelta(days=1)
   was_published_recently.admin_order_field = 'created_datetime'
