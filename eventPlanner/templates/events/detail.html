@@ -1,6 +1,14 @@
 {% load url from future %}
 <h1>{{ event.name }}</h1>
-<form action="{% url 'update' event.id %}" method="post">
+
+<p>
+  <strong>Location: </strong>{{ event.location }}
+  <br />
+  <strong>Description: </strong>{{ event.description }}
+  <br />
+  <strong>Category: </strong>{{ event.category }}
+</p>
+<!-- <form action="{% url 'update' event.id %}" method="post">
 {% csrf_token %}
 {% for choice in poll.choice_set.all %}
     <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
@@ -8,3 +16,4 @@
 {% endfor %}
 <input type="submit" value="Vote" />
 </form>
+ -->
