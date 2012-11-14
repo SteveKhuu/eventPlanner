@@ -1,5 +1,5 @@
 <h1>Event Planner</h1>
-An collaborative event planner tool.
+A collaborative event planner tool.
 
 <h2>Dependencies</h2>
 

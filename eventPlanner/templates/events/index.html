@@ -3,7 +3,9 @@
     <h1>Events</h1>
     <ul>
     {% for event in latest_event_list %}
-        <li><a href="{% url 'detail' event.id %}">{{ event.name }}</a></li>
+        <li>
+            <a href="{% url 'detail' event.id %}">{{ event.name }}</a>
+        </li>
     {% endfor %}
     </ul>
 {% else %}

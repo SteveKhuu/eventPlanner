@@ -16,9 +16,11 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^$', views.index, name='index'),
-    
     url(r'^(?P<event_id>\d+)/$', views.detail, name='detail'),
     url(r'^(?P<event_id>\d+)/update$', views.update, name='update'),
     url(r'^(?P<event_id>\d+)/attend/$', views.attend, name='attend'),
+    url(r'^(?P<event_id>\d+)/export/$', views.export, name='ics_export'),
     
 )
+
+

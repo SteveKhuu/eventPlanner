@@ -5,13 +5,20 @@ from django.db import models
 from datetime import datetime
 
 class Category(models.Model):
+  
+  class Meta:
+    verbose_name_plural = "Categories"
+    
   name = models.CharField(max_length=200)
 
   def __unicode__(self):
     return self.name
   
-class Event(models.Model):
+class Events(models.Model):
   
+  class Meta:
+    verbose_name_plural = "Events"
+    
   EVENT_STATUS = (
       ('DR', 'Draft'),
       ('SB', 'Submitted'),

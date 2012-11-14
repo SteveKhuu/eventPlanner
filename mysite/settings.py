@@ -124,7 +124,8 @@ INSTALLED_APPS = (
    'django.contrib.admindocs',
    'mysite',
    'eventPlanner',
-   'south'
+   'south',
+   'icalendar'
 )
 
 # A sample logging configuration. The only tangible logging

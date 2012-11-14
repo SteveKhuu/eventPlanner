@@ -8,6 +8,23 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Deleting model 'Event'
+        db.delete_table('eventPlanner_event')
+
+        # Adding model 'Events'
+        db.create_table('eventPlanner_events', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('location', self.gf('django.db.models.fields.CharField')(max_length=1000)),
+            ('description', self.gf('django.db.models.fields.TextField')()),
+            ('category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eventPlanner.Category'], null=True, blank=True)),
+            ('status', self.gf('django.db.models.fields.CharField')(default='DR', max_length=2)),
+            ('start_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('end_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('created_datetime', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+        ))
+        db.send_create_signal('eventPlanner', ['Events'])
+
         # Adding model 'Category'
         db.create_table('eventPlanner_category', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -15,26 +32,25 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal('eventPlanner', ['Category'])
 
-        # Adding field 'Event.category'
-        db.add_column('eventPlanner_event', 'category',
-                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['eventPlanner.Category'], null=True, blank=True),
-                      keep_default=False)
-
-        # Adding field 'Event.status'
-        db.add_column('eventPlanner_event', 'status',
-                      self.gf('django.db.models.fields.CharField')(default='DR', max_length=2),
-                      keep_default=False)
-
 
     def backwards(self, orm):
+        # Adding model 'Event'
+        db.create_table('eventPlanner_event', (
+            ('start_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+            ('description', self.gf('django.db.models.fields.TextField')()),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('location', self.gf('django.db.models.fields.CharField')(max_length=1000)),
+            ('created_datetime', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('end_datetime', self.gf('django.db.models.fields.DateTimeField')()),
+        ))
+        db.send_create_signal('eventPlanner', ['Event'])
+
+        # Deleting model 'Events'
+        db.delete_table('eventPlanner_events')
+
         # Deleting model 'Category'
         db.delete_table('eventPlanner_category')
-
-        # Deleting field 'Event.category'
-        db.delete_column('eventPlanner_event', 'category_id')
-
-        # Deleting field 'Event.status'
-        db.delete_column('eventPlanner_event', 'status')
 
 
     models = {
@@ -49,8 +65,8 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'})
         },
-        'eventPlanner.event': {
-            'Meta': {'object_name': 'Event'},
+        'eventPlanner.events': {
+            'Meta': {'object_name': 'Events'},
             'category': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['eventPlanner.Category']", 'null': 'True', 'blank': 'True'}),
             'created_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'description': ('django.db.models.fields.TextField', [], {}),

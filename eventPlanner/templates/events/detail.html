@@ -12,6 +12,9 @@
   <br />
   <strong>End time: </strong>{{ event.end_datetime }}
 </p>
+
+<a href="{% url 'ics_export' event.id %}" >Export Event</a>
+
 <!-- <form action="{% url 'update' event.id %}" method="post">
 {% csrf_token %}
 {% for choice in poll.choice_set.all %}
