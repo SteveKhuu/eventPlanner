@@ -1,4 +1,7 @@
 {% load url from future %}
+<a href="{% url 'index'%}">Back to Events</a>
+<a href="/">Home</a>
+<br />
 <h1>{{ event.name }}</h1>
 
 <p>
@@ -14,6 +17,8 @@
 </p>
 
 <a href="{% url 'ics_export' event.id %}" >Export Event</a>
+<br />
+<a href="{% url 'send_invite' event.id %}" >Send Event</a>
 
 <!-- <form action="{% url 'update' event.id %}" method="post">
 {% csrf_token %}

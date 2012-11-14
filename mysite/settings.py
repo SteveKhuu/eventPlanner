@@ -1,3 +1,8 @@
+try:
+  from local_settings import *
+except ImportError:
+  pass
+
 # Django settings for eventPlanner project.
 import os
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
