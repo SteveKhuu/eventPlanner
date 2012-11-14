@@ -6,6 +6,7 @@ Created on Nov 13, 2012
 
 from datetime import datetime
 import icalendar
+import random
 from icalendar import Calendar, Event
 
 from django.contrib.sites.models import Site
@@ -15,7 +16,6 @@ from django.shortcuts import render, get_object_or_404
 from django.template.defaultfilters import slugify
 
 from eventPlanner.models import Events
-from eventPlanner import feedgenerator
 
 def index(request):
   latest_event_list = Events.objects.order_by('-start_datetime')[:5]
@@ -52,7 +52,7 @@ def export(request, event_id):
   eventObj.add('dtstart', event.start_datetime)
   eventObj.add('dtend', event.end_datetime)
   eventObj.add('dtstamp', event.created_datetime)
-  eventObj['uid'] = '%d.events.%s' % (event.id, site_token)
+  eventObj['uid'] = '%dT%d.events.%s' % (event.id, random.randrange(111111111,999999999), site_token)
   eventObj.add('priority', 5)
 
   cal.add_component(eventObj)
@@ -63,7 +63,7 @@ def export(request, event_id):
       output += line + "\n"
 
   response = HttpResponse(output, mimetype="text/calendar")
-  response['Content-Disposition'] = 'attachment; filename=%s.ics' % slugify(event.name)
+  response['Content-Disposition'] = 'attachment; filename=%s.ics' % slugify(event.name + "-" + str(event.start_datetime.year))
   return response
 
 #  response = HttpResponse(ical, mimetype="text/calendar")
