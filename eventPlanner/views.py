@@ -79,11 +79,23 @@ def send_email(request, event_id):
   
   attachment_name = '%s.ics' % slugify(event.name + "-" + str(event.start_datetime.year))
   
-  mail = EmailMessage(event.name, event.description, 'Stephen_Khuu@epam.com', ['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com'])
-  mail.attach(attachment_name, output, 'text/calendar')
-  mail.send()
+  context = {'event': event,
+             'title' : 'Uh-oh!',
+             'message' : 'Something went wrong when sending out the invitation'}
+    
+  try:
+    mail = EmailMessage(event.name, event.description, 'Stephen_Khuu@epam.com', ['Stephen_Khuu@epam.com'])#['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com'])
+    mail.attach(attachment_name, output, 'text/calendar')
+    mail.send()
   
-  event.flag_submitted()
-          
-  context = {'event': event}
-  return render(request, 'events/send_success.html', context)
+    event.flag_submitted()
+            
+    context['title'] = 'Success!'
+    context['message'] = 'Invitation was successfully sent!'
+    return render(request, 'events/send_done.html', context)
+  except:
+    context['title'] = 'Error!'
+    context['message'] = 'There was an error sending your invitation.'
+    return render(request, 'events/send_done.html', context)
+  
+  return render(request, 'events/send_done.html', context)
