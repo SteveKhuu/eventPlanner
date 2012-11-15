@@ -1,4 +1,6 @@
+{% extends "base.html" %}
 {% load url from future %}
+{% block content %}
 <a href="{% url 'index'%}">Back to Events</a>
 <a href="/">Home</a>
 <br />
@@ -29,3 +31,4 @@
 <input type="submit" value="Vote" />
 </form>
  -->
+ {% endblock %}

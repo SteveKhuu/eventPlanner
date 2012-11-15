@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% block content %}
+	{% if latest_event_list %}
+	    <h1>Events</h1>
+	    <ul>
+	    {% for event in latest_event_list %}
+	        <li>
+	            <a href="{% url 'detail' event.id %}">{{ event.name }}</a>
+	        </li>
+	    {% endfor %}
+	    </ul>
+	{% else %}
+	    <p>No events are available.</p>
+	{% endif %}
+{% endblock %}
