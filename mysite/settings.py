@@ -161,3 +161,7 @@ LOGGING = {
         },
     }
 }
+
+# For Heroku deployment
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
