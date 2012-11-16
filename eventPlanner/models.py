@@ -61,7 +61,7 @@ class Attendee(models.Model):
   is_managing = models.BooleanField(default=False)
   
   def __unicode__(self):
-   return unicode(self.user.username) + " => " + unicode(self.event.name)
+    return unicode(self.user.username) + " => " + unicode(self.event.name)
 
 class Task(models.Model):
   name = models.CharField(max_length=200)
