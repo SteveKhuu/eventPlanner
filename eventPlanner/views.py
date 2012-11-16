@@ -9,8 +9,9 @@ import random
 from icalendar import Calendar, Event
 
 from django.contrib.sites.models import Site
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.core.mail.message import EmailMessage
-
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.defaultfilters import slugify
@@ -18,11 +19,28 @@ from django.template.defaultfilters import slugify
 from eventPlanner.models import Events
 
 def index(request):
+  user = request.user
+
   latest_event_list = Events.objects.order_by('-start_datetime')[:5]
-  context = {'latest_event_list': latest_event_list}
+  context = {'latest_event_list': latest_event_list,
+             'message': 'default'}
+
+#  if user is not None:
+#      if user.is_active:
+#          login(request, user)
+#          # Redirect to a success page.
+#          context['message'] = 'sucessful login'
+#      else:
+#          # Return a 'disabled account' error message
+#          context['message'] = 'disabled login'
+#  else:
+#      # Return an 'invalid login' error message.
+#      context['message'] = 'invalid login'
+#        
   return render(request, 'events/index.html', context)
 #  return HttpResponse("Hello, world. You're at the event planner index.")
-  
+
+
 def detail(request, event_id):
   event = get_object_or_404(Events, pk=event_id)
   return render(request, 'events/detail.html', {'event': event})

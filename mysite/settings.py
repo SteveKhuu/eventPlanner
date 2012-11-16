@@ -128,8 +128,15 @@ INSTALLED_APPS = (
    'mysite',
    'eventPlanner',
    'south',
-   'icalendar'
+   'icalendar',
+   'registration'
 )
+
+#account activation settings
+ACCOUNT_ACTIVATION_DAYS = 7
+EMAIL_HOST = 'localhost'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+LOGIN_REDIRECT_URL = '/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -159,6 +166,15 @@ LOGGING = {
         },
     }
 }
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.CryptPasswordHasher',
+)
 
 #Uncomment For Heroku deployment
 #import dj_database_url
