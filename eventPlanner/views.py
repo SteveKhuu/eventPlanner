@@ -19,27 +19,20 @@ from django.template.defaultfilters import slugify
 from eventPlanner.models import Events, Attendee, Task
 
 def index(request):
-  user = request.user
-
   latest_event_list = Events.objects.order_by('-start_datetime')[:5]
   context = {'latest_event_list': latest_event_list,
              'message': 'default'}
 
-#  if user is not None:
-#      if user.is_active:
-#          login(request, user)
-#          # Redirect to a success page.
-#          context['message'] = 'sucessful login'
-#      else:
-#          # Return a 'disabled account' error message
-#          context['message'] = 'disabled login'
-#  else:
-#      # Return an 'invalid login' error message.
-#      context['message'] = 'invalid login'
-#        
   return render(request, 'events/index.html', context)
-#  return HttpResponse("Hello, world. You're at the event planner index.")
 
+def my_events(request):
+  user = request.user
+
+  latest_event_list = Events.objects.filter(attendees=user).order_by('-start_datetime')[:5]
+  context = {'latest_event_list': latest_event_list,
+             'message': 'default'}
+
+  return render(request, 'events/index.html', context)
 
 def detail(request, event_id):
   

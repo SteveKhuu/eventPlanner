@@ -16,7 +16,7 @@
           <a href="{% url home %}">{% trans "Home" %}</a> | 
           <a href="/events/">View Events</a> | 
         {% if user.is_authenticated %}
-          <a href="/events/">My Events</a> |
+          <a href="{% url my_events %}">My Events</a> |
           {% trans "Logged in" %}: {{ user.username }} 
           (<a href="{% url auth_logout %}">{% trans "Log out" %}</a> | 
           <a href="{% url auth_password_change %}">{% trans "Change password" %}</a>)
