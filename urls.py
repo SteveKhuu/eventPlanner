@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic.simple import redirect_to
 
 
@@ -29,4 +28,3 @@ urlpatterns = patterns('',
     
 )
 
-urlpatterns += staticfiles_urlpatterns()
