@@ -16,6 +16,9 @@ class EventsAdmin(admin.ModelAdmin):
     list_filter = ['start_datetime']
     date_hierarchy = 'start_datetime'
 
+#class AttendeeAdmin(admin.ModelAdmin):
+  
+  
 #class EventsAdmin(admin.ModelAdmin):
 #    fieldsets = [
 #        ('Basic information',               {'fields': ['name', 'category', 'status', 'location', 'description']}),

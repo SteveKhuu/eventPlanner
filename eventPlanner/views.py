@@ -16,7 +16,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.defaultfilters import slugify
 
-from eventPlanner.models import Events
+from eventPlanner.models import Events, Attendee, Task
 
 def index(request):
   user = request.user
@@ -42,8 +42,29 @@ def index(request):
 
 
 def detail(request, event_id):
+  
   event = get_object_or_404(Events, pk=event_id)
-  return render(request, 'events/detail.html', {'event': event})
+  attendees = event.attendees.all()
+  is_attending = event.attendees.filter(username=request.user.username).exists()
+  
+  is_managing = False
+  
+  tasks = []
+  
+  if is_attending:
+    attendee = Attendee.objects.get(event=event, user=request.user)
+    is_managing = is_managing or attendee.is_managing
+    
+    if is_managing:
+      tasks = Task.objects.filter(event=event)
+    
+  context = {'event' : event,
+             'attendees' : attendees,
+             'is_attending' : is_attending,
+             'is_managing' : is_managing, 
+             'tasks' : tasks
+             }
+  return render(request, 'events/detail.html', context)
 
 def update(request, event_id):
   event = get_object_or_404(Events, pk=event_id)
