@@ -1,6 +1,7 @@
 import datetime
-from django.utils import timezone
+from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 from datetime import datetime
 
@@ -13,7 +14,7 @@ class Category(models.Model):
 
   def __unicode__(self):
     return self.name
-  
+
 class Events(models.Model):
   
   class Meta:
@@ -32,6 +33,8 @@ class Events(models.Model):
   start_datetime = models.DateTimeField('start datetime')
   end_datetime = models.DateTimeField('end datetime')
   created_datetime = models.DateTimeField(default=datetime.now)
+  
+  attendees = models.ManyToManyField(User, through='Attendee')
   
   def flag_submitted(self):
     self.status = 'SB'
@@ -53,9 +56,20 @@ class Events(models.Model):
     return self.name
 
 class Attendee(models.Model):
-  first_name = models.CharField(max_length=200)
-  last_name = models.CharField(max_length=200)
+  user = models.ForeignKey(User)
+  event = models.ForeignKey(Events)
+  is_managing = models.BooleanField(default=False)
   
   def __unicode__(self):
-    return self.first_name + " " + self.last_name
+   return unicode(self.user.username) + " => " + unicode(self.event.name)
+
+class Task(models.Model):
+  name = models.CharField(max_length=200)
+  user = models.ForeignKey(User)
+  event = models.ForeignKey(Events)
+  complete = models.BooleanField(default=False)
+  target_datetime = models.DateTimeField('do task by', blank=True, null=True)
+  
+  def __unicode__(self):
+    return self.name
   
