@@ -17,8 +17,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
 
-from eventPlanner.models import Events, Attendee, Task
-from eventPlanner.eventForms import EventForm
+from eventPlanner.models import Events, Attendee, Task, Comment
+from eventPlanner.eventForms import EventForm, CommentForm
 
 def index(request):
   latest_event_list = Events.objects.order_by('-start_datetime')[:5]
@@ -84,20 +84,26 @@ def detail(request, event_id):
   is_managing = False
   
   tasks = []
+  comments = []
   
   if is_attending:
     attendee = Attendee.objects.get(event=event, user=request.user)
     is_managing = is_managing or attendee.is_managing
+    comments = Comment.objects.filter(event=event, user=request.user)
     
     if is_managing:
       tasks = Task.objects.filter(event=event)
-    
+  
+  comment_form = CommentForm(initial={'event':event.pk, 'user':request.user.id})
+  
   context = {'event' : event,
              'attendees' : attendees,
              'num_attendees' : attendees.count(),
              'is_attending' : is_attending,
              'is_managing' : is_managing, 
-             'tasks' : tasks
+             'tasks' : tasks,
+             'comment_form': comment_form,
+             'comments' : comments
              }
   return render(request, 'events/detail.html', context)
 
@@ -138,6 +144,19 @@ def leave(request, event_id):
   
   return redirect('detail', event_id=event_id)
 
+def comment(request, event_id):
+  
+  if request.method == 'POST':
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+      comment_form.save()
+      
+    else:
+      print 'Error in comments'
+      print comment_form.errors
+      
+  return redirect('detail', event_id=event_id)
+    
 def make_calendar_object(event_id):
   event = get_object_or_404(Events, pk=event_id)
 

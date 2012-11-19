@@ -1,15 +1,29 @@
 {% extends "base.html" %}
 {% load url from future %}
+{% load humanize %}
 {% block content %}
 <div class="event_detail">
 	<h1>{{ event.name }}</h1>
-	
+	 {% if not event.is_over %}
+    {% if is_attending %}
+     <h2>You're attending this event!</h2>
+     <a class="btn btn-danger btn-large" href="{% url 'leave' event.id %}"><i class="icon-remove icon-white"></i> Leave Event</a>
+    {% else %}
+     <a class="btn btn-success btn-large" href="{% url 'attend' event.id %}"><i class="icon-ok icon-white"></i> Attend Event</a>
+    {% endif %}
+  {% endif %}
+
+  <a class="btn btn-primary btn-large " href="{% url 'ics_export' event.id %}" ><i class="icon-calendar icon-white"></i> Export Event</a>
+  
+  {% if is_managing %}
+  <a class="btn btn-warning btn-large" href="{% url 'edit' event.id %}" ><i class="icon-pencil icon-white"></i> Edit Event</a>
+  <a class="btn btn-info btn-large" href="{% url 'send_invite' event.id %}" ><i class="icon-envelope icon-white"></i> Send Event</a>
+  {% endif %}
+  
 	<p>
 	  <strong>Location: </strong>{{ event.location }}
 	  <br />
 	  <strong>Description: </strong>{{ event.description }}
-	  <br />
-	  <strong>Category: </strong>{{ event.category }}
 	  <br />
 	  <strong>Start time: </strong>{{ event.start_datetime }}
 	  <br />
@@ -29,16 +43,6 @@
 	  </p>
 	{% endif %}
 	
-	{% if not event.is_over %}
-    {% if is_attending %}
-	   <h2>You're attending this event!</h2>
-	   <a class="btn btn-danger btn-large" href="{% url 'leave' event.id %}"><i class="icon-remove icon-white"></i> Leave Event</a>
-	  {% else %}
-	   <a class="btn btn-success btn-large" href="{% url 'attend' event.id %}"><i class="icon-ok icon-white"></i> Attend Event</a>
-	  {% endif %}
-  {% endif %}
-	<br/>
-	
 	{% if is_managing %}
 	<h2>Tasks</h2>
 	  <ul>
@@ -47,14 +51,31 @@
 	    {% endfor %}
 	  </ul>
 	{% endif %}
-	      
-	<a class="btn btn-primary btn-large " href="{% url 'ics_export' event.id %}" ><i class="icon-calendar icon-white"></i> Export Event</a>
 	
-	{% if is_managing %}
-	<a class="btn btn-warning btn-large" href="{% url 'edit' event.id %}" ><i class="icon-pencil icon-white"></i> Edit Event</a>
-	<a class="btn btn-info btn-large" href="{% url 'send_invite' event.id %}" ><i class="icon-envelope icon-white"></i> Send Event</a>
-  {% endif %}
-  
+	{% if is_attending %}
+		<h2>Comments</h2>
+	  <form action="{% url 'comment' event.id %}" method="post">
+	    {% csrf_token %}
+	  {{ comment_form.as_p }}
+	  <input class="btn btn-success btn-large" type="submit" value="Submit" />
+	  </form>
+    
+    {% if comments %}
+      <ul class="comments">
+      {% for comment in comments %}
+        <li>
+          <p>
+            <strong>{{comment.user}} says:</strong>
+            <br />
+            {{comment.comment}}
+            <br />
+            {{comment.created_datetime|timesince}} ago
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    
+	{% endif %}
 </div>
 
  {% endblock %}

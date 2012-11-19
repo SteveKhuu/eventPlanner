@@ -3,8 +3,10 @@ Created on Nov 19, 2012
 
 @author: Stephen_Khuu
 '''
+from django import forms
 from django.forms import ModelForm
-from eventPlanner.models import Events, Attendee, Task
+from django.forms.widgets import HiddenInput, Textarea
+from eventPlanner.models import Events, Attendee, Task, Comment
 from eventPlanner.widgets import SplitSelectDateTimeWidget
 
 class EventForm(ModelForm):
@@ -14,4 +16,16 @@ class EventForm(ModelForm):
       widgets = {
         'start_datetime' : SplitSelectDateTimeWidget(),
         'end_datetime' : SplitSelectDateTimeWidget()
+      }
+      
+class CommentForm(ModelForm):
+  
+    comment = forms.CharField(widget=forms.Textarea, label='')
+    
+    class Meta:
+      model = Comment
+      fields = ('user', 'event', 'comment')
+      widgets = {
+        'event' : HiddenInput(),
+        'user' : HiddenInput(),
       }

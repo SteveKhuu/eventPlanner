@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^(?P<event_id>\d+)/edit/$', views.edit, name='edit'),
     url(r'^(?P<event_id>\d+)/attend/$', views.attend, name='attend'),
     url(r'^(?P<event_id>\d+)/leave/$', views.leave, name='leave'),
+    url(r'^(?P<event_id>\d+)/comment/$', views.comment, name='comment'),
     url(r'^(?P<event_id>\d+)/export/$', views.export, name='ics_export'),
     url(r'^(?P<event_id>\d+)/send_event/$', views.send_email, name='send_invite'),
 )

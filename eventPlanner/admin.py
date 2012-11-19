@@ -5,7 +5,7 @@ Created on Nov 13, 2012
 '''
 
 from django.contrib import admin
-from eventPlanner.models import Events, Task, Attendee
+from eventPlanner.models import Events, Task, Attendee, Comment
 
 class EventsAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -23,7 +23,13 @@ class TaskAdmin(admin.ModelAdmin):
   list_display = ('user', 'event', 'complete', 'target_datetime')
   list_filter = ['target_datetime']
   date_hierarchy = 'target_datetime'
-    
+
+class CommentAdmin(admin.ModelAdmin):
+  list_display = ('user', 'event', 'created_datetime')
+  list_filter = ['created_datetime']
+  date_hierarchy = 'created_datetime'
+  
 admin.site.register(Events, EventsAdmin)
 admin.site.register(Attendee, AttendeeAdmin)
 admin.site.register(Task, TaskAdmin)
+admin.site.register(Comment, CommentAdmin)
