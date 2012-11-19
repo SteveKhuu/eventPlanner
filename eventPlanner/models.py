@@ -61,4 +61,13 @@ class Task(models.Model):
   
   def __unicode__(self):
     return self.name
+
+class Comment(models.Model):
+  user = models.ForeignKey(User)
+  event = models.ForeignKey(Events)
+  comment = models.CharField(max_length=1000)
+  created_datetime = models.DateTimeField(default=datetime.now)
+  
+  def __unicode__(self):
+    return self.event.name + ": " + self.comment
   
