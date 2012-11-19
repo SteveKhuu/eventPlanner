@@ -5,3 +5,4 @@ README.md~
 .pydevproject
 .settings/
 mysite/local_settings.py
+local_settings.py
