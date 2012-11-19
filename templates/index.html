@@ -1,5 +1,25 @@
 {% extends "base.html" %}
+{% load i18n %}
+
 {% block content %}
-	<h1>Event Planner</h1>
-	<a href="/events/">View Events</a>
+<div class="centered">
+  {% if user.is_authenticated %}
+    <h2>Welcome {{user.username}}!</h2>
+  {% else %}
+    <h2>{{ login_cta }}</h2>
+		<form method="post" action="/accounts/login/">
+		  {% csrf_token %}
+		  <p>
+		    <label for="id_username">Username:</label> <input id="id_username" type="text" name="username" maxlength="30">
+		  </p>
+		  <p>
+		    <label for="id_password">Password:</label> <input type="password" name="password" id="id_password">
+		  </p>
+		  <input type="submit" value="Log in" class="btn btn-large btn-primary">
+		  <input type="hidden" name="next" value="">
+		</form>
+		<p>{% trans "Not member" %}? <a href="{% url registration_register %}">{% trans "Register" %}</a>!</p>
+  {% endif %}
+</div>
+
 {% endblock %}

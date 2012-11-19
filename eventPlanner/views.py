@@ -8,6 +8,7 @@ import icalendar
 import random
 from icalendar import Calendar, Event
 
+from django import forms
 from django.contrib.sites.models import Site
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User

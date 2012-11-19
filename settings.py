@@ -138,9 +138,9 @@ INSTALLED_APPS = (
 
 #account activation settings
 ACCOUNT_ACTIVATION_DAYS = 7
-EMAIL_HOST = 'localhost'
-DEFAULT_FROM_EMAIL = 'webmaster@localhost'
-LOGIN_REDIRECT_URL = '/'
+#EMAIL_HOST = 'localhost'
+#DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+#LOGIN_REDIRECT_URL = '/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

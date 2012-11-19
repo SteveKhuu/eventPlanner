@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='home'),
     
     url(r'^accounts/', include('registration.backends.default.urls')),
-    url(r'^accounts/profile/', redirect_to, {'url': '/events/'}),
+    url(r'^accounts/profile/', redirect_to, {'url': '/'}),
     
     url(r'^events/', include('eventPlanner.urls')),
     # Uncomment the next line to enable the admin:

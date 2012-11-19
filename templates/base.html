@@ -21,22 +21,37 @@
   <body>
       
       <header>
+        <ul class="nav nav-pills">
         {% block header %}
-          <a href="{% url home %}">{% trans "Home" %}</a> | 
-          <a href="/events/">View Events</a> | 
         {% if user.is_authenticated %}
-          <a href="{% url my_events %}">My Events</a> |
-          {% trans "Logged in" %}: {{ user.username }} 
-          (<a href="{% url auth_logout %}">{% trans "Log out" %}</a> | 
-          <a href="{% url auth_password_change %}">{% trans "Change password" %}</a>)
+          <li>
+            <a href="{% url home %}">{% trans "Home" %}</a>
+          </li>
         {% else %}
-          <a href="{% url auth_login %}">{% trans "Log in" %}</a>
+          <li>
+            <a href="{% url home %}">{% trans "Log in" %}</a>
+          </li>
         {% endif %}
-          <hr />
+        <li>
+          <a href="/events/">View Events</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li>
+             <a href="{% url my_events %}">My Events</a
+          </li>
+          <li style="float:right;margin-right:5px;">
+            {% trans "Logged in" %}: {{ user.username }} 
+            (<a href="{% url auth_logout %}" class="inline-block">{% trans "Log out" %}</a>
+            <a href="{% url auth_password_change %}" class="inline-block">{% trans "Change password" %}</a>)
+          </li>
+        {% endif %}
+          
         {% endblock %}
+        </ul>
+        <hr />
 	    </header>
       
-      <div id="content">
+      <div id="content" class="container-narrow">
         {% block content %}{% endblock %}
       </div>
       
