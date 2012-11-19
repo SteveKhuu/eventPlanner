@@ -5,16 +5,6 @@ from django.utils import timezone
 
 from datetime import datetime
 
-class Category(models.Model):
-  
-  class Meta:
-    verbose_name_plural = "Categories"
-    
-  name = models.CharField(max_length=200)
-
-  def __unicode__(self):
-    return self.name
-
 class Events(models.Model):
   
   class Meta:
@@ -28,7 +18,6 @@ class Events(models.Model):
   name = models.CharField(max_length=200)
   location = models.CharField(max_length=1000)
   description = models.TextField()
-  category = models.ForeignKey(Category, blank=True, null=True)
   status = models.CharField(max_length=2, choices=EVENT_STATUS, default='DR')
   start_datetime = models.DateTimeField('start datetime')
   end_datetime = models.DateTimeField('end datetime')

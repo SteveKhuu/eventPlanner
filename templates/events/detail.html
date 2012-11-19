@@ -51,9 +51,7 @@
 	<a class="btn btn-primary btn-large " href="{% url 'ics_export' event.id %}" ><i class="icon-calendar icon-white"></i> Export Event</a>
 	
 	{% if is_managing %}
-	<br />
 	<a class="btn btn-warning btn-large" href="{% url 'edit' event.id %}" ><i class="icon-pencil icon-white"></i> Edit Event</a>
-	<br />
 	<a class="btn btn-info btn-large" href="{% url 'send_invite' event.id %}" ><i class="icon-envelope icon-white"></i> Send Event</a>
   {% endif %}
   
