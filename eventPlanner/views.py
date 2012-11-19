@@ -70,7 +70,8 @@ def create_event(request):
     form = EventForm()
     
   context = {
-             'form' : form
+             'form' : form,
+             'button_label' : 'Create Event'
              }
   return render(request, 'events/create.html', context)
   
@@ -100,9 +101,23 @@ def detail(request, event_id):
              }
   return render(request, 'events/detail.html', context)
 
-def update(request, event_id):
+def edit(request, event_id):
   event = get_object_or_404(Events, pk=event_id)
-  return render(request, 'events/detail.html', {'event': event})
+  
+  if request.method == 'POST':
+    form = EventForm(request.POST, instance=event)
+    if form.is_valid():
+      form.save()
+      return redirect('detail', event_id=event.pk)
+  else:
+    form = EventForm(instance=event)
+    
+  context = {
+             'form' : form,
+             'button_label' : 'Save Event'
+             }
+  
+  return render(request, 'events/create.html', context)
 
 def attend(request, event_id):
   event = get_object_or_404(Events, pk=event_id)

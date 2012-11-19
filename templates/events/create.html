@@ -5,7 +5,7 @@
 	<form action="." method="post">
 	{% csrf_token %}
 	{{ form.as_p }}
-	<input class="btn btn-success btn-large" type="submit" value="Create Event" />
+	<input class="btn btn-success btn-large" type="submit" value="{{ button_label }}" />
 	</form>
 </div>
 {% endblock %}
