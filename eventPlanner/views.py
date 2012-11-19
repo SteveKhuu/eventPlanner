@@ -14,24 +14,46 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.mail.message import EmailMessage
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
 
 from eventPlanner.models import Events, Attendee, Task
 
 def index(request):
   latest_event_list = Events.objects.order_by('-start_datetime')[:5]
-  context = {'latest_event_list': latest_event_list,
-             'message': 'default'}
-
+  
+  expired_events = []
+  active_events = []
+  
+  for event in latest_event_list:
+    if event.is_over():
+      expired_events.append(event)
+    else:
+      active_events.append(event)
+  
+  context = {'active_events': active_events,
+             'expired_events': expired_events,
+             'title': 'Events'}
+  
   return render(request, 'events/index.html', context)
 
 def my_events(request):
   user = request.user
 
   latest_event_list = Events.objects.filter(attendees=user).order_by('-start_datetime')[:5]
-  context = {'latest_event_list': latest_event_list,
-             'message': 'default'}
+  
+  expired_events = []
+  active_events = []
+  
+  for event in latest_event_list:
+    if event.is_over():
+      expired_events.append(event)
+    else:
+      active_events.append(event)
+      
+  context = {'active_events': active_events,
+             'expired_events': expired_events,
+             'title': 'My Events'}
 
   return render(request, 'events/index.html', context)
 
@@ -54,6 +76,7 @@ def detail(request, event_id):
     
   context = {'event' : event,
              'attendees' : attendees,
+             'num_attendees' : attendees.count(),
              'is_attending' : is_attending,
              'is_managing' : is_managing, 
              'tasks' : tasks
@@ -65,7 +88,14 @@ def update(request, event_id):
   return render(request, 'events/detail.html', {'event': event})
 
 def attend(request, event_id):
-  return HttpResponse("You're attending event %s." % event_id)
+  event = get_object_or_404(Events, pk=event_id)
+  
+  attendee, created = Attendee.objects.get_or_create(event=event, user=request.user)
+  
+  if created:
+    attendee.save()
+  
+  return redirect('detail', event_id=event_id)
 
 def make_calendar_object(event_id):
   event = get_object_or_404(Events, pk=event_id)

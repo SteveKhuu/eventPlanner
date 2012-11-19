@@ -1,51 +1,66 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% block content %}
-<h1>{{ event.name }}</h1>
+<div class="event_detail">
+	<h1>{{ event.name }}</h1>
+	
+	<p>
+	  <strong>Location: </strong>{{ event.location }}
+	  <br />
+	  <strong>Description: </strong>{{ event.description }}
+	  <br />
+	  <strong>Category: </strong>{{ event.category }}
+	  <br />
+	  <strong>Start time: </strong>{{ event.start_datetime }}
+	  <br />
+	  <strong>End time: </strong>{{ event.end_datetime }}
+	</p>
+	
+	<h2>Attendees</h2>
+	{% if num_attendees > 0 %}
+	  <ul>
+	    {% for attendee in attendees %}
+	    <li>{{ attendee.username }}</li>
+	    {% endfor %}
+	  </ul>
+	{% else %}
+	  <p>
+	    There are no attendees at this event =(
+	  </p>
+	{% endif %}
+	
+	
+	{% if is_attending %}
+	<h2>You're attending this event!</h2>
+	{% else %}
+		{% if not event.is_over %}
+		<a class="btn btn-success .btn-large" href="{% url 'attend' event.id %}">Attend Event</a>
+		{% endif %}
+	{% endif %}
+	<br/>
+	
+	{% if is_managing %}
+	<h2>Tasks</h2>
+	  <ul>
+	    {% for task in tasks %}
+	    <li>{{ task.name }} | {{task.user}} | {{task.complete}}</li>
+	    {% endfor %}
+	  </ul>
+	{% endif %}
+	      
+	<a class="btn btn-primary .btn-large" href="{% url 'ics_export' event.id %}" >Export Event</a>
+	<br />
+	<a class="btn btn-info .btn-large" href="{% url 'send_invite' event.id %}" >Send Event</a>
+	
+	<!-- <form action="{% url 'update' event.id %}" method="post">
+	{% csrf_token %}
+	{% for choice in poll.choice_set.all %}
+	    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+	    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+	{% endfor %}
+	<input type="submit" value="Vote" />
+	</form>
+	 -->
+</div>
 
-<p>
-  <strong>Location: </strong>{{ event.location }}
-  <br />
-  <strong>Description: </strong>{{ event.description }}
-  <br />
-  <strong>Category: </strong>{{ event.category }}
-  <br />
-  <strong>Start time: </strong>{{ event.start_datetime }}
-  <br />
-  <strong>End time: </strong>{{ event.end_datetime }}
-</p>
-
-<h2>Attendees</h2>
-{% if event.attendees %}
-  <ul>
-    {% for attendee in attendees %}
-    <li>{{ attendee.username }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-
-<h2>Is attending: {{ is_attending }}</h2>
-
-{% if is_managing %}
-<h2>Tasks</h2>
-  <ul>
-    {% for task in tasks %}
-    <li>{{ task.name }} | {{task.user}} | {{task.complete}}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-      
-<a href="{% url 'ics_export' event.id %}" >Export Event</a>
-<br />
-<a href="{% url 'send_invite' event.id %}" >Send Event</a>
-
-<!-- <form action="{% url 'update' event.id %}" method="post">
-{% csrf_token %}
-{% for choice in poll.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
-{% endfor %}
-<input type="submit" value="Vote" />
-</form>
- -->
  {% endblock %}

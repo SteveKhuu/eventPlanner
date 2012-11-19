@@ -1,16 +1,39 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% block content %}
-	{% if latest_event_list %}
-	    <h1>Events</h1>
+	<h1>{{ title }}</h1>
+	{% if active_events %}
+	    
+	    <h2>Active Events</h2>
 	    <ul>
-	    {% for event in latest_event_list %}
+	    {% for event in active_events %}
 	        <li>
-	            <a href="{% url 'detail' event.id %}">{{ event.name }}</a>
+	            <a href="{% url 'detail' event.id %}">
+	             {{ event.name }}
+	            </a>
 	        </li>
 	    {% endfor %}
 	    </ul>
 	{% else %}
-	    <p>No events are available.</p>
+	    <p>
+	      There are no active events =(
+	      <br />
+	      Click <a href="{% url 'index' %}">here</a> to browse ongoing events!
+      </p>
+      
+	{% endif %}
+	
+	{% if expired_events %}
+	  <hr />
+	  <h2>Expired Events</h2>
+	  <ul>
+	  {% for event in expired_events %}
+		  <li>
+		      <a href="{% url 'detail' event.id %}">
+		       {{ event.name }}
+		      </a>
+		  </li>
+	  {% endfor %}
+		</ul>
 	{% endif %}
 {% endblock %}
