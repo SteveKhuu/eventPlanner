@@ -18,6 +18,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
 
 from eventPlanner.models import Events, Attendee, Task
+from eventPlanner.eventForms import EventForm
 
 def index(request):
   latest_event_list = Events.objects.order_by('-start_datetime')[:5]
@@ -57,6 +58,22 @@ def my_events(request):
 
   return render(request, 'events/index.html', context)
 
+def create_event(request):
+  if request.method == 'POST':
+    form = EventForm(request.POST)
+    if form.is_valid():
+      new_event = form.save()
+      attendee = Attendee(user = request.user, event = new_event, is_managing=True)
+      attendee.save()
+      return redirect('detail', event_id=new_event.pk)
+  else:
+    form = EventForm()
+    
+  context = {
+             'form' : form
+             }
+  return render(request, 'events/create.html', context)
+  
 def detail(request, event_id):
   
   event = get_object_or_404(Events, pk=event_id)

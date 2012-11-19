@@ -7,11 +7,14 @@
     <h2>Welcome {{user.username}}!</h2>
     <br />
     <div class="row-fluid">
-		  <div class="span6">
-		    <a class="btn btn-info btn-large" href="{% url index %}"><i class="icon-th-list icon-white"></i> View Events</a>
+		  <div class="span4">
+		    <a class="btn btn-primary btn-large" href="{% url index %}"><i class="icon-globe icon-white"></i> View All Events</a>
 		  </div>
-		  <div class="span6">
-		    <a class="btn btn-success btn-large" href=""><i class="icon-pencil icon-white"></i> Create an Event</a>
+		  <div class="span4">
+        <a class="btn btn-info btn-large" href="{% url my_events %}"><i class="icon-th-list icon-white"></i> View My Events</a>
+      </div>
+		  <div class="span4">
+		    <a class="btn btn-success btn-large" href="{% url create_event %}"><i class="icon-pencil icon-white"></i> Create an Event</a>
 		  </div>
 		</div>
   {% else %}

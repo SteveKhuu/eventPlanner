@@ -37,7 +37,10 @@
         </li>
         {% if user.is_authenticated %}
           <li>
-             <a href="{% url my_events %}">My Events</a
+             <a href="{% url my_events %}">My Events</a>
+          </li>
+          <li>
+             <a href="{% url create_event %}">Create An Event</a>
           </li>
           <li style="float:right;margin-right:5px;">
             {% trans "Logged in" %}: {{ user.username }} 
