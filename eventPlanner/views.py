@@ -97,6 +97,15 @@ def attend(request, event_id):
   
   return redirect('detail', event_id=event_id)
 
+def leave(request, event_id):
+  event = get_object_or_404(Events, pk=event_id)
+  
+  attendee = Attendee.objects.get(event=event, user=request.user)
+  
+  attendee.delete()
+  
+  return redirect('detail', event_id=event_id)
+
 def make_calendar_object(event_id):
   event = get_object_or_404(Events, pk=event_id)
 
