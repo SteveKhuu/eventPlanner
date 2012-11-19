@@ -5,6 +5,7 @@ Created on Nov 19, 2012
 '''
 from django import forms
 from django.forms import ModelForm
+from django.forms.models import inlineformset_factory
 from django.forms.widgets import HiddenInput, Textarea
 from eventPlanner.models import Events, Attendee, Task, Comment
 from eventPlanner.widgets import SplitSelectDateTimeWidget
@@ -29,3 +30,14 @@ class CommentForm(ModelForm):
         'event' : HiddenInput(),
         'user' : HiddenInput(),
       }
+      
+class TaskForm(ModelForm):
+    
+    class Meta:
+      model = Task
+      widgets = {
+        'target_datetime' : HiddenInput()
+      }
+      
+      
+AddTaskFormset = inlineformset_factory(Events, Task, extra=1)

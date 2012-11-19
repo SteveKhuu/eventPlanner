@@ -9,6 +9,7 @@ import random
 from icalendar import Calendar, Event
 
 from django import forms
+from django.conf import settings
 from django.contrib.sites.models import Site
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -18,7 +19,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
 
 from eventPlanner.models import Events, Attendee, Task, Comment
-from eventPlanner.eventForms import EventForm, CommentForm
+from eventPlanner.eventForms import EventForm, CommentForm, AddTaskFormset, TaskForm
 
 def index(request):
   latest_event_list = Events.objects.order_by('-start_datetime')[:5]
@@ -85,6 +86,8 @@ def detail(request, event_id):
   
   tasks = []
   comments = []
+  task_form = None
+  task_list_formset = []
   
   if is_attending:
     attendee = Attendee.objects.get(event=event, user=request.user)
@@ -93,6 +96,22 @@ def detail(request, event_id):
     
     if is_managing:
       tasks = Task.objects.filter(event=event)
+      task_list_formset = AddTaskFormset(prefix='task', instance=event)
+      
+      if request.method == 'POST':
+        task_list_formset = AddTaskFormset(request.POST, instance=event)
+        if task_list_formset.is_valid():
+            task_list_formset.save()
+            task_list_formset = AddTaskFormset(prefix='task', instance=event)
+            
+        else:
+          print task_form.errors
+          print "====="
+          print task_list_formset.errors
+      else:
+          task_form = TaskForm()
+          task_list_formset = AddTaskFormset(instance=event)
+      
   
   comment_form = CommentForm(initial={'event':event.pk, 'user':request.user.id})
   
@@ -102,6 +121,8 @@ def detail(request, event_id):
              'is_attending' : is_attending,
              'is_managing' : is_managing, 
              'tasks' : tasks,
+             'task_form' : task_form,
+             'task_list_formset' : task_list_formset,
              'comment_form': comment_form,
              'comments' : comments
              }
@@ -207,7 +228,7 @@ def send_email(request, event_id):
              'message' : 'Something went wrong when sending out the invitation'}
     
   try:
-    mail = EmailMessage(event.name, event.description, 'Stephen_Khuu@epam.com', ['Stephen_Khuu@epam.com'])#['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com'])
+    mail = EmailMessage(event.name, event.description, settings.EMAIL_HOST_USER, ['Stephen_Khuu@epam.com'])#['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com'])
     mail.attach(attachment_name, output, 'text/calendar')
     mail.send()
   

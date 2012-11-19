@@ -53,8 +53,8 @@ class Attendee(models.Model):
     return unicode(self.user.username) + " => " + unicode(self.event.name)
 
 class Task(models.Model):
-  name = models.CharField(max_length=200)
   user = models.ForeignKey(User)
+  name = models.CharField(max_length=200)
   event = models.ForeignKey(Events)
   complete = models.BooleanField(default=False)
   target_datetime = models.DateTimeField('do task by', blank=True, null=True)
