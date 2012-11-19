@@ -32,9 +32,9 @@
 	{% if not event.is_over %}
     {% if is_attending %}
 	   <h2>You're attending this event!</h2>
-	   <a class="btn btn-danger .btn-large" href="{% url 'leave' event.id %}"><i class="icon-remove icon-white"></i>Leave Event</a>
+	   <a class="btn btn-danger .btn-large" href="{% url 'leave' event.id %}"><i class="icon-remove icon-white"></i> Leave Event</a>
 	  {% else %}
-	   <a class="btn btn-success .btn-large" href="{% url 'attend' event.id %}"><i class="icon-ok icon-white"></i>Attend Event</a>
+	   <a class="btn btn-success .btn-large" href="{% url 'attend' event.id %}"><i class="icon-ok icon-white"></i> Attend Event</a>
 	  {% endif %}
   {% endif %}
 	<br/>
@@ -48,11 +48,11 @@
 	  </ul>
 	{% endif %}
 	      
-	<a class="btn btn-primary .btn-large " href="{% url 'ics_export' event.id %}" ><i class="icon-calendar icon-white"></i>Export Event</a>
+	<a class="btn btn-primary .btn-large " href="{% url 'ics_export' event.id %}" ><i class="icon-calendar icon-white"></i> Export Event</a>
 	
 	{% if is_managing %}
 	<br />
-	<a class="btn btn-info .btn-large" href="{% url 'send_invite' event.id %}" ><i class="icon-envelope icon-white"></i>Send Event</a>
+	<a class="btn btn-info .btn-large" href="{% url 'send_invite' event.id %}" ><i class="icon-envelope icon-white"></i> Send Event</a>
   {% endif %}
   
 	<!-- <form action="{% url 'update' event.id %}" method="post">
