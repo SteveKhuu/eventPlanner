@@ -44,20 +44,22 @@
 	  <strong>End time: </strong>{{ event.end_datetime }}
 	</p>
 	
-	<h2>Attending: {{num_attendees}}</h2>
-	{% if num_attendees > 0 %}
-	  <ul class="attendee_list">
-	    {% for attendee in attendees %}
-	    <li>
-	    {{ attendee.user.username }}
-	    <i class="{{ attendee.is_managing|yesno:'icon-star-empty,no'}}"></i>
-	    </li>
-	    {% endfor %}
-	  </ul>
-	{% else %}
-	  <p>
-	    There are no attendees at this event =(
-	  </p>
+	{% if not event.is_over and user.is_authenticated %}
+		<h2>Attending: {{num_attendees}}</h2>
+		{% if num_attendees > 0 %}
+		  <ul class="attendee_list">
+		    {% for attendee in attendees %}
+		    <li>
+		    {{ attendee.user.username }}
+		    <i class="{{ attendee.is_managing|yesno:'icon-star-empty,no'}}"></i>
+		    </li>
+		    {% endfor %}
+		  </ul>
+		{% else %}
+		  <p>
+		    There are no attendees at this event =(
+		  </p>
+		{% endif %}
 	{% endif %}
 	
 	{% if is_managing %}
