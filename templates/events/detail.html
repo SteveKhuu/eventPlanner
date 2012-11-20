@@ -45,33 +45,43 @@
 	
 	{% if is_managing %}
 	<h2>Tasks</h2>
-	  <!--  <ul>
-	    {% for task in tasks %}
-	    <li>{{ task.name }} | {{task.user}} | {{task.complete}}</li>
-	    {% endfor %}
-	  </ul>-->
-	  <form method='post' action='.'>
-  	  {% csrf_token %}
-<!-- 
-  	  {{ task_list_formset }}
-		  <fieldset>
-		    <legend>Event Tasks</legend>
-		      {{ task_list_formset.management_form }}
-		      {% for form in task_list_formset.forms %}
-		        <div>{{form.as_p}}</div>
-		      {% endfor %}
-		      <input title='Add a task' type='submit' name='add_task' value='Add Task' />
-		    </fieldset>
-		    <input title='Submit this form' type='submit' name='submit' value='Submit' />
-		     -->
-      <table>
-	      {{ task_list_formset.as_table }}
-	      <tr>
-	        <th></th>
-	        <td><input type="submit" name="submit" value="Submit" class="button"></td>
-	      </tr>
-      </table>
-		</form>
+  <form method='post' action='.'>
+     {% csrf_token %}
+	  <table class="table">
+	      {{ task_list_formset.non_form_errors.as_ul }}
+	      {{ task_list_formset.management_form }}
+	      {% for form in task_list_formset.forms %}
+	        
+	        {% if forloop.first %}
+				  <thead>
+				   <tr>
+				    {% for field in form.visible_fields %}
+				    <th>{{ field.label|capfirst }}</th>
+				    {% endfor %}
+				   </tr>
+				  </thead>
+				  {% endif %}
+				  <tr class="{% cycle row1,row2 %}">
+					  {% for field in form.visible_fields %}
+					    <td>
+					    {# Include the hidden fields in the form #}
+					    {% if forloop.first %}
+					      {% for hidden in form.hidden_fields %}
+					      {{ hidden }}
+					      {% endfor %}
+					    {% endif %}
+					      {{ field.errors.as_ul }}
+					      {{ field }}
+					    </td>
+					  {% endfor %}
+				  </tr>
+	      {% endfor %}
+	      
+	    </table>
+	    <!-- <input title='Add a new task' type='submit' name='add_task' value='Add' /> -->
+	    <input class="btn btn-success btn-large" title='Submit this form' type='submit' name='submit' value='Update Tasks' />
+	</form>
+
 	{% endif %}
 	
 	{% if is_attending %}

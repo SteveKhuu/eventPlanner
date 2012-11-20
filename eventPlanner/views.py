@@ -96,23 +96,27 @@ def detail(request, event_id):
     
     if is_managing:
       tasks = Task.objects.filter(event=event)
-      task_list_formset = AddTaskFormset(prefix='task', instance=event)
+#      task_list_formset = AddTaskFormset(prefix='task', instance=event)
       
-      if request.method == 'POST':
-        task_list_formset = AddTaskFormset(request.POST, instance=event)
-        if task_list_formset.is_valid():
+      # if this form has been submitted...
+      if request.method=='POST':
+        if 'add_task' in request.POST:
+          cp = request.POST.copy()
+          cp['task-TOTAL_FORMS'] = int(cp['task-TOTAL_FORMS'])+ 1
+          task_list_formset = AddTaskFormset(prefix='task', instance=event)
+        elif 'submit' in request.POST:
+          # Do whatever you need to do on the actual form submission
+          task_list_formset = AddTaskFormset(request.POST, prefix='task', instance=event)
+          
+          if task_list_formset.is_valid():
             task_list_formset.save()
             task_list_formset = AddTaskFormset(prefix='task', instance=event)
-            
-        else:
-          print task_form.errors
-          print "====="
-          print task_list_formset.errors
-      else:
-          task_form = TaskForm()
-          task_list_formset = AddTaskFormset(instance=event)
+#          pass
       
-  
+      # if this is a fresh form...
+      else:
+          task_list_formset = AddTaskFormset(prefix='task', instance=event)
+      
   comment_form = CommentForm(initial={'event':event.pk, 'user':request.user.id})
   
   context = {'event' : event,
