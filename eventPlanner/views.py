@@ -11,7 +11,8 @@ from icalendar import Calendar, Event
 from django import forms
 from django.conf import settings
 from django.contrib.sites.models import Site
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth.models import User
 from django.core.mail.message import EmailMessage
 from django.http import HttpResponse
@@ -88,7 +89,17 @@ def detail(request, event_id):
   comments = []
   task_form = None
   task_list_formset = []
+  login_form = AuthenticationForm()
   
+  if request.method=='POST':
+    
+    if not request.user.is_authenticated():
+      login_form = AuthenticationForm(data=request.POST)
+      if login_form.is_valid():
+        auth_login(request, login_form.get_user())
+        
+        return redirect('detail', event_id=event_id)
+    
   if is_attending:
     attendee = Attendee.objects.get(event=event, user=request.user)
     is_managing = is_managing or attendee.is_managing
@@ -100,10 +111,12 @@ def detail(request, event_id):
       
       # if this form has been submitted...
       if request.method=='POST':
+        
         if 'add_task' in request.POST:
           cp = request.POST.copy()
           cp['task-TOTAL_FORMS'] = int(cp['task-TOTAL_FORMS'])+ 1
           task_list_formset = AddTaskFormset(prefix='task', instance=event)
+        
         elif 'submit' in request.POST:
           # Do whatever you need to do on the actual form submission
           task_list_formset = AddTaskFormset(request.POST, prefix='task', instance=event)
@@ -116,7 +129,8 @@ def detail(request, event_id):
       # if this is a fresh form...
       else:
           task_list_formset = AddTaskFormset(prefix='task', instance=event)
-      
+  
+  
   comment_form = CommentForm(initial={'event':event.pk, 'user':request.user.id})
   
   context = {'event' : event,
@@ -128,7 +142,8 @@ def detail(request, event_id):
              'task_form' : task_form,
              'task_list_formset' : task_list_formset,
              'comment_form': comment_form,
-             'comments' : comments
+             'comments' : comments,
+             'login_form' : login_form
              }
   return render(request, 'events/detail.html', context)
 

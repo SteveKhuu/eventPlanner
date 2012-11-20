@@ -1,6 +1,10 @@
 import datetime
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.core.mail.message import EmailMessage
 from django.db import models
+from django.template.loader import render_to_string
 from django.utils import timezone
 
 from datetime import datetime
@@ -62,8 +66,34 @@ class Task(models.Model):
   def __unicode__(self):
     return self.name
 
+  def inform_task_to_attendee(self):
+    
+    if self.user.email:
+      assignee = self.user
+      event = self.event
+      
+      
+      ctx_dict = {'username': assignee.username,
+                  'task_name': self.name,
+                  'event_name': event.name,
+                  'event_id' : event.pk,
+                  'site': Site.objects.get_current()
+                  }
+      
+      subject = event.name + " task assignment"
+      message = render_to_string('events/task_message.txt',
+                                 ctx_dict)
+      
+      try:
+        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [self.user.email])
+        mail.send()
+      
+      except: 
+        print 'There was an error sending your invitation.'
+    
   def save(self, *args, **kwargs):
     attendee, created = Attendee.objects.get_or_create(user=self.user, event=self.event, is_managing=True)
+    self.inform_task_to_attendee()
     super(Task, self).save(*args, **kwargs)
     
 class Comment(models.Model):
