@@ -4,10 +4,10 @@
 {% block content %}
 <div class="centered">
   {% if user.is_authenticated %}
-    <h2>Welcome {{user.username}}!</h2>
-    <br />
-    <div class="row-fluid">
-		  <div class="span4">
+    <div class="hero-unit">
+      <h2>Welcome {{user.username}}!</h2>
+	<!-- 	  
+	<div class="span4">
 		    <a class="btn btn-primary btn-large" href="{% url index %}"><i class="icon-globe icon-white"></i> View All Events</a>
 		  </div>
 		  <div class="span4">
@@ -15,8 +15,16 @@
       </div>
 		  <div class="span4">
 		    <a class="btn btn-success btn-large" href="{% url create_event %}"><i class="icon-pencil icon-white"></i> Create an Event</a>
-		  </div>
+		  </div> -->
+		<p>
+		  {{ total_events }} events have been made with E-Plan.
+		  <br />
+		  You are going to {{ total_events_attending_active }} upcoming events.
+		  <br />
+		  You have attended {{ total_events_attending_expired }} events so far.
+		</p>
 		</div>
+    
   {% else %}
     <h2>{{ login_cta }}</h2>
 		<form method="post" action="/accounts/login/">

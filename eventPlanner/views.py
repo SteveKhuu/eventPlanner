@@ -22,7 +22,7 @@ from eventPlanner.models import Events, Attendee, Task, Comment
 from eventPlanner.eventForms import EventForm, CommentForm, AddTaskFormset, TaskForm
 
 def index(request):
-  latest_event_list = Events.objects.order_by('-start_datetime')[:5]
+  latest_event_list = Events.objects.order_by('-start_datetime')
   
   expired_events = []
   active_events = []
@@ -42,7 +42,7 @@ def index(request):
 def my_events(request):
   user = request.user
 
-  latest_event_list = Events.objects.filter(attendees=user).order_by('-start_datetime')[:5]
+  latest_event_list = Events.objects.filter(attendees=user).order_by('-start_datetime')
   
   expired_events = []
   active_events = []
@@ -79,7 +79,7 @@ def create_event(request):
 def detail(request, event_id):
   
   event = get_object_or_404(Events, pk=event_id)
-  attendees = event.attendees.all()
+  attendees = Attendee.objects.filter(event=event)
   is_attending = event.attendees.filter(username=request.user.username).exists()
   
   is_managing = False
@@ -111,8 +111,8 @@ def detail(request, event_id):
           if task_list_formset.is_valid():
             task_list_formset.save()
             task_list_formset = AddTaskFormset(prefix='task', instance=event)
-#          pass
-      
+            
+            
       # if this is a fresh form...
       else:
           task_list_formset = AddTaskFormset(prefix='task', instance=event)

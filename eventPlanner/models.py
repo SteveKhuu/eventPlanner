@@ -62,6 +62,10 @@ class Task(models.Model):
   def __unicode__(self):
     return self.name
 
+  def save(self, *args, **kwargs):
+    attendee, created = Attendee.objects.get_or_create(user=self.user, event=self.event, is_managing=True)
+    super(Task, self).save(*args, **kwargs)
+    
 class Comment(models.Model):
   user = models.ForeignKey(User)
   event = models.ForeignKey(Events)

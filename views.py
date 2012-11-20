@@ -5,8 +5,9 @@ Created on Nov 13, 2012
 '''
 
 import random
-from django.shortcuts import render
 
+from django.shortcuts import render
+from eventPlanner.models import Events
 
 def index(request):
   login_ctas = ['Got an awesome event? Log in and post it!', 
@@ -16,7 +17,26 @@ def index(request):
   
   login_cta = login_ctas[random.randrange(0, len(login_ctas))]
   
+  total_events = 0
+  total_events_attending = 0
+  total_events_attending_expired = 0
   
-  context = {'login_cta' : login_cta
+  if request.user.is_authenticated():
+    
+    total_events = Events.objects.count()
+    
+    events_attending = Events.objects.filter(attendees=request.user)
+    total_events_attending = events_attending.count()
+    
+    for event in events_attending:
+      if event.is_over():
+        total_events_attending_expired += 1
+  
+  
+  context = {'login_cta' : login_cta,
+             'total_events' : total_events,
+             'total_events_attending' : total_events_attending,
+             'total_events_attending_active' : (total_events_attending - total_events_attending_expired),
+             'total_events_attending_expired' : total_events_attending_expired,
              }
   return render(request, 'index.html', context)

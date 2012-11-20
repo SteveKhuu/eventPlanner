@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load url from future %}
 {% load humanize %}
+{% load event_extras %}
 {% block content %}
 <div class="event_detail">
 	<h1>{{ event.name }}</h1>
@@ -34,7 +35,10 @@
 	{% if num_attendees > 0 %}
 	  <ul class="attendee_list">
 	    {% for attendee in attendees %}
-	    <li>{{ attendee.username }}</li>
+	    <li>
+	    {{ attendee.user.username }}
+	    <i class="{{ attendee.is_managing|yesno:'icon-star-empty,no'}}"></i>
+	    </li>
 	    {% endfor %}
 	  </ul>
 	{% else %}

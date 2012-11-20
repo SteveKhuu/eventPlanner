@@ -25,22 +25,22 @@
         {% block header %}
         {% if user.is_authenticated %}
           <li>
-            <a href="{% url home %}">{% trans "Home" %}</a>
+            <a class="btn btn-inverse" href="{% url home %}"><i class="icon-home icon-white"></i> {% trans "Home" %}</a>
           </li>
         {% else %}
           <li>
-            <a href="{% url home %}">{% trans "Log in" %}</a>
+            <a class="btn btn-inverse" href="{% url home %}"><i class="icon-user icon-white"></i> {% trans "Log in" %}</a>
           </li>
         {% endif %}
         <li>
-          <a href="/events/">View Events</a>
+          <a class="btn btn-primary" href="/events/"><i class="icon-globe icon-white"></i> View Events</a>
         </li>
         {% if user.is_authenticated %}
           <li>
-             <a href="{% url my_events %}">My Events</a>
+             <a class="btn btn-info" href="{% url my_events %}"><i class="icon-th-list icon-white"></i> My Events</a>
           </li>
           <li>
-             <a href="{% url create_event %}">Create An Event</a>
+             <a class="btn btn-success" href="{% url create_event %}"><i class="icon-pencil icon-white"></i> Create An Event</a>
           </li>
           <li style="float:right;margin-right:5px;">
             {% trans "Logged in" %}: {{ user.username }} 
