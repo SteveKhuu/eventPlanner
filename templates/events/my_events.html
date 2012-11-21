@@ -3,27 +3,50 @@
 {% load url from future %}
 {% load humanize %}
 {% block content %}
-	<h1>{{ title }}</h1>
-	<hr />
-	{% if active_events %}
-	    
-	    <h2>{{active_title}}</h2>
-	    
-	    {% include "events/_event_list.html" with event_list=active_events %}
-	{% else %}
-	    <p>
-	      There are no active events =(
-	      <br />
-	      Click <a href="{% url 'index' %}">here</a> to browse ongoing events!
-      </p>
-      
-	{% endif %}
+<h1>{{ title }}</h1>
+<hr />
+
+<div class="accordion" id="events_accordion">
+ 
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#events_accordion" href="#collapseOne">
+        <h2>{{active_title}}</h2>
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse in">
+      <div class="accordion-inner">
+				{% if active_events %}
+				    {% include "events/_event_list.html" with event_list=active_events %}
+				{% else %}
+				    <p>
+				      There are no active events =(
+				      <br />
+				      Click <a href="{% url 'index' %}">here</a> to browse ongoing events!
+				     </p>
+				     
+				{% endif %}
+			</div>
+		</div>
+	</div>
 	
-	{% if expired_events %}
-	  <hr />
-	  <h2>Expired Events</h2>
-	  
-	  {% include "events/_event_list.html" with event_list=expired_events %}
-	  
-	{% endif %}
+	<div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#events_accordion" href="#collapseTwo">
+        <h2>Expired Events</h2>
+      </a>
+    </div>
+    <div id="collapseTwo" class="accordion-body collapse">
+      <div class="accordion-inner">
+        {% if expired_events %}
+		      {% include "events/_event_list.html" with event_list=expired_events %}
+		    {% else %}
+		      <p>
+		        There are no expired events.
+		      </p>
+		    {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

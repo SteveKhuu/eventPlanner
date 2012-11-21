@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm 
 from django.contrib.auth.models import User
 from django.core.mail.message import EmailMessage
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
@@ -172,7 +172,8 @@ def attend(request, event_id):
   if created:
     attendee.save()
   
-  return redirect('detail', event_id=event_id)
+  return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+#  return redirect('detail', event_id=event_id)
 
 def leave(request, event_id):
   event = get_object_or_404(Events, pk=event_id)
@@ -181,7 +182,8 @@ def leave(request, event_id):
   
   attendee.delete()
   
-  return redirect('detail', event_id=event_id)
+  return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+#  return redirect('detail', event_id=event_id)
 
 def comment(request, event_id):
   

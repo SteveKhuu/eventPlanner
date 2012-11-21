@@ -1,23 +1,32 @@
 {% extends "base.html" %}
 {% load i18n %}
 
+{% block content_scripts %}
+<script>
+   $(function () {
+       var ele = $('#total_events_counter');
+       var total_events = ele.data("total-events");
+       var clr = null;
+       var initialValue = 0;
+       inloop();
+       function inloop() {
+           ele.html(initialValue += 1);
+           if (initialValue == total_events) {
+               return;
+           }
+           clr = setTimeout(inloop, 60); //call 'inloop()' after 30 milliseconds
+       }
+   });
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="centered">
   {% if user.is_authenticated %}
     <div class="hero-unit">
       <h2>Welcome {{user.username}}!</h2>
-	<!-- 	  
-	<div class="span4">
-		    <a class="btn btn-primary btn-large" href="{% url index %}"><i class="icon-globe icon-white"></i> View All Events</a>
-		  </div>
-		  <div class="span4">
-        <a class="btn btn-info btn-large" href="{% url my_events %}"><i class="icon-th-list icon-white"></i> View My Events</a>
-      </div>
-		  <div class="span4">
-		    <a class="btn btn-success btn-large" href="{% url create_event %}"><i class="icon-pencil icon-white"></i> Create an Event</a>
-		  </div> -->
 		<p>
-		  {{ total_events }} events have been made with E-Plan.
+		  <span id="total_events_counter" data-total-events="{{ total_events }}">0</span> events have been made with E-Plan.
 		  <br />
 		  You are going to {{ total_events_attending_active }} upcoming events.
 		  <br />
