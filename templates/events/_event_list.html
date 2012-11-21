@@ -16,18 +16,19 @@
         <span class="event_field">{{event.start_datetime|naturalday}}, {{event.start_datetime|time}} to {{event.end_datetime|naturalday}}, {{event.end_datetime|time}}</span>
         <div class="event_end">
             
-            {% for attendee in event.attendees.all %}
-              {% if user == attendee %}
-		            <a class="btn btn-danger" href="{% url 'leave' event.id %}">
-                  <i class="icon-remove icon-white"></i> Leave Event
-                </a>
-              {% endif %}
-            {% empty %}
-              <a class="btn btn-success" href="{% url 'attend' event.id %}">
-                 <i class="icon-ok icon-white"></i> Attend Event
-               </a>
-            {% endfor %}
-            
+            {% if user.is_authenticated %}
+	            {% for attendee in event.attendees.all %}
+	              {% if user == attendee %}
+			            <a class="btn btn-danger" href="{% url 'leave' event.id %}">
+	                  <i class="icon-remove icon-white"></i> Leave Event
+	                </a>
+	              {% endif %}
+	            {% empty %}
+	              <a class="btn btn-success" href="{% url 'attend' event.id %}">
+	                 <i class="icon-ok icon-white"></i> Attend Event
+	               </a>
+	            {% endfor %}
+            {% endif %}
             <a class="btn btn-info" href="{% url 'detail' event.id %}">
               <i class="icon-list-alt icon-white"></i> View Details
             </a>

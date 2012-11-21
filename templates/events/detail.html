@@ -3,18 +3,39 @@
 {% load humanize %}
 {% load event_extras %}
 {% load i18n %}
+
+{% block content_scripts %}
+	{% if not user.is_authenticated %}
+	<script>
+	   $(function () {
+		   $('#loginModal').modal('show')
+	   });
+	</script>
+	{% endif %}
+{% endblock %}
+
 {% block content %}
 <div class="event_detail">
 
   {% if not user.is_authenticated %}
-  <h2>Log in now to get involved in this event</h2>
-  
-  <form action="." method="post">
-    {% csrf_token %}
-    {{login_form}}
-    <br />
-    <input class="btn btn-success btn-large" name="submit_event_login" type="submit" value="Log In" />
-  </form>
+  <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h2>Log in now to join in this event</h2>
+    </div>
+	  <div class="modal-body">
+	   <form action="." method="post">
+       {% csrf_token %}
+	     {{login_form}}
+	     <br />
+	     <input class="btn btn-success btn-large" name="submit_event_login" type="submit" value="Log In" />
+	   </form>
+	   <p>{% trans "Not member" %}? <a href="{% url 'registration_register' %}">{% trans "Register" %}</a>!</p>
+	  </div>
+	  <div class="modal-footer">
+	    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	  </div>
+	</div>
   {% endif %}
   
 	<h1>{{ event.name }}</h1>
