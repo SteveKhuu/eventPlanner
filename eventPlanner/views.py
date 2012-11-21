@@ -102,7 +102,7 @@ def detail(request, event_id):
   if is_attending:
     attendee = Attendee.objects.get(event=event, user=request.user)
     is_managing = is_managing or attendee.is_managing
-    comments = Comment.objects.filter(event=event, user=request.user)
+    comments = Comment.objects.filter(event=event)
     
     if is_managing:
       tasks = Task.objects.filter(event=event)

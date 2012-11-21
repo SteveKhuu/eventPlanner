@@ -17,6 +17,7 @@
         <div class="event_end">
             
             {% if user.is_authenticated %}
+              <!-- 
 	            {% for attendee in event.attendees.all %}
 	              {% if user == attendee %}
 			            <a class="btn btn-danger" href="{% url 'leave' event.id %}">
@@ -28,6 +29,7 @@
 	                 <i class="icon-ok icon-white"></i> Attend Event
 	               </a>
 	            {% endfor %}
+	             -->
             {% endif %}
             <a class="btn btn-info" href="{% url 'detail' event.id %}">
               <i class="icon-list-alt icon-white"></i> View Details
