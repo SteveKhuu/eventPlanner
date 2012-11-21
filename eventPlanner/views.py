@@ -18,6 +18,7 @@ from django.core.mail.message import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.defaultfilters import slugify
+from django.template.loader import render_to_string
 
 from eventPlanner.models import Events, Attendee, Task, Comment
 from eventPlanner.eventForms import EventForm, CommentForm, AddTaskFormset, TaskForm
@@ -25,17 +26,14 @@ from eventPlanner.eventForms import EventForm, CommentForm, AddTaskFormset, Task
 def index(request):
   latest_event_list = Events.objects.order_by('-start_datetime')
   
-  expired_events = []
   active_events = []
   
   for event in latest_event_list:
-    if event.is_over():
-      expired_events.append(event)
-    else:
+    if not event.is_over():
       active_events.append(event)
   
   context = {'active_events': active_events,
-             'expired_events': expired_events,
+             'active_title' : '',
              'title': 'Events'}
   
   return render(request, 'events/index.html', context)
@@ -55,10 +53,11 @@ def my_events(request):
       active_events.append(event)
       
   context = {'active_events': active_events,
+             'active_title' : 'Active Events',
              'expired_events': expired_events,
              'title': 'My Events'}
 
-  return render(request, 'events/index.html', context)
+  return render(request, 'events/my_events.html', context)
 
 def create_event(request):
   if request.method == 'POST':
@@ -246,8 +245,18 @@ def send_email(request, event_id):
              'title' : 'Uh-oh!',
              'message' : 'Something went wrong when sending out the invitation'}
     
+  ctx_dict = {'event_name': event.name,
+                'event_description': event.description,
+                'event_start' : event.start_datetime,
+                'site': Site.objects.get_current()
+                }
+    
+  subject = "Event invitation for " + event.name
+  message = render_to_string('events/event_invite_message.txt',
+                             ctx_dict)
+      
   try:
-    mail = EmailMessage(event.name, event.description, settings.EMAIL_HOST_USER, ['Stephen_Khuu@epam.com'])#['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com'])
+    mail = EmailMessage(event.name, event.description, settings.EMAIL_HOST_USER, settings.TEST_EMAIL_LIST)
     mail.attach(attachment_name, output, 'text/calendar')
     mail.send()
   

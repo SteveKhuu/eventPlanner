@@ -1,6 +1,19 @@
-.nav .inline-block {
-  display: inline-block;
+.title_image {
+  width: 200px;
+  float: left;
+  padding: 10px;
+  padding-bottom: 0px;
+  margin-right: 71px;
 }
+
+.nav {
+  
+   margin-top: 10px;
+   
+  .inline-block {
+    display: inline-block;
+  }
+} 
 
 .container-narrow {
   margin: 0 auto;
@@ -23,12 +36,63 @@ ul {
   color: red;
 }
 
-.attendee_list, .errorlist {
+.attendee_list, .errorlist, .event_list {
   margin-left: 0px;
 }
 
 .table thead th {
   border: none;
+}
+
+.event_list {
+
+  .event_image {
+    width: 220px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    
+    img {
+      padding: 10px;
+    }
+  }
+  
+  .event_item {
+    position: relative;
+    margin: 10px 0px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+  }
+  
+  .event_item:hover {
+    background: #ADC9E2;
+  }
+  
+  .event_details {
+    vertical-align: top;
+    display: inline-block;
+    
+    .event_field {
+      display: block;
+      padding: 3px 10px; 
+    }
+  
+    .event_field:first-child {
+      padding-top: 0px; 
+    }
+    
+    .event_end {
+      text-align: right; 
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+  
 }
 
 /**************************

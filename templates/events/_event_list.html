@@ -1,0 +1,26 @@
+{% load static %}
+{% load url from future %}
+{% load humanize %}
+<ul class="event_list">
+{% for event in event_list %}
+ <li>
+    <div class="event_item row-fluid">
+      <div class="event_image span4">
+       <img src="{% get_static_prefix %}img/map.png" alt="map" />
+      </div>
+      <div class="event_details span8">
+         <span class="event_field"><h3>{{ event.name }}</h3></span>
+         <span class="event_field">{{event.description}}</span>
+         <!-- Include time and {{ event.attendees.count }} -->
+         <span class="event_field">{{event.start_datetime|naturalday}}, {{event.start_datetime|time}} to {{event.end_datetime|naturalday}}, {{event.end_datetime|time}}</span>
+         <div class="event_end">
+              
+             <a class="btn btn-info" href="{% url 'detail' event.id %}">
+               View Details
+             </a>
+         </div>
+      </div>
+    </div>
+ </li>
+{% endfor %}
+</ul>

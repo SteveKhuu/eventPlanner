@@ -7,6 +7,8 @@
 	<hr />
 	{% if active_events %}
 	    
+	    <h2>{{active_title}}</h2>
+	    
 	    {% include "events/_event_list.html" with event_list=active_events %}
 	{% else %}
 	    <p>
@@ -17,4 +19,11 @@
       
 	{% endif %}
 	
+	{% if expired_events %}
+	  <hr />
+	  <h2>Expired Events</h2>
+	  
+	  {% include "events/_event_list.html" with event_list=expired_events %}
+	  
+	{% endif %}
 {% endblock %}

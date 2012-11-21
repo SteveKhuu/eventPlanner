@@ -21,8 +21,14 @@
   <body>
       
       <header>
+         
+        <a href="{% url home %}">
+          <img src="{% get_static_prefix %}img/title.png" class="title_image"/>
+        </a>
         <ul class="nav nav-pills">
         {% block header %}
+        
+        <!-- 
         {% if user.is_authenticated %}
           <li>
             <a class="btn btn-inverse" href="{% url home %}"><i class="icon-home icon-white"></i> {% trans "Home" %}</a>
@@ -32,6 +38,7 @@
             <a class="btn btn-inverse" href="{% url home %}"><i class="icon-user icon-white"></i> {% trans "Log in" %}</a>
           </li>
         {% endif %}
+         -->
         <li>
           <a class="btn btn-primary" href="/events/"><i class="icon-globe icon-white"></i> View Events</a>
         </li>

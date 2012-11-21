@@ -72,7 +72,6 @@ class Task(models.Model):
       assignee = self.user
       event = self.event
       
-      
       ctx_dict = {'username': assignee.username,
                   'task_name': self.name,
                   'event_name': event.name,
