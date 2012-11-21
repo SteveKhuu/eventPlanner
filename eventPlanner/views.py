@@ -250,15 +250,16 @@ def send_email(request, event_id):
   ctx_dict = {'event_name': event.name,
                 'event_description': event.description,
                 'event_start' : event.start_datetime,
+                'event_id': event.pk,
                 'site': Site.objects.get_current()
                 }
     
-  subject = "Event invitation for " + event.name
+  subject = "Events@EPAM Event invitation to " + event.name
   message = render_to_string('events/event_invite_message.txt',
                              ctx_dict)
       
   try:
-    mail = EmailMessage(event.name, event.description, settings.EMAIL_HOST_USER, settings.TEST_EMAIL_LIST)
+    mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, settings.TEST_EMAIL_LIST)
     mail.attach(attachment_name, output, 'text/calendar')
     mail.send()
   
