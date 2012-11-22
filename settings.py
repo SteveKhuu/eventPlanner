@@ -195,3 +195,6 @@ if 'HEROKU_PRODUCTION_FLAG' in os.environ:
   EMAIL_HOST='smtp.gmail.com'#
   EMAIL_HOST_USER = 'stephen.khuu@gmail.com'
   EMAIL_HOST_PASSWORD = 'gmailR0cks'
+  TEST_EMAIL_LIST= ['Stephen_Khuu@epam.com', 'g7khuust@gmail.com']
+  TEST_GROUP_EMAIL_LIST = ['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com']
+  DIRECTORS_EMAIL_LIST = ['Jason_Lee@epam.com', 'Derek_Mitchell@epam.com', 'Mark_Rechsteiner@epam.com', 'Kirk_Robinson@epam.com', 'Valentina_Hedow@epam.com']

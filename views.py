@@ -6,7 +6,6 @@ Created on Nov 13, 2012
 
 import random
 
-from django.conf import settings
 from django.shortcuts import render
 from eventPlanner.models import Events
 
@@ -39,6 +38,5 @@ def index(request):
              'total_events_attending' : total_events_attending,
              'total_events_attending_active' : (total_events_attending - total_events_attending_expired),
              'total_events_attending_expired' : total_events_attending_expired,
-             'heroku_test' : heroku_test
              }
   return render(request, 'index.html', context)
