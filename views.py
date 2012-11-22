@@ -6,7 +6,7 @@ Created on Nov 13, 2012
 
 import random
 
-from django.cong import settings
+from django.conf import settings
 from django.shortcuts import render
 from eventPlanner.models import Events
 
