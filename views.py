@@ -34,10 +34,6 @@ def index(request):
       if event.is_over():
         total_events_attending_expired += 1
   
-  heroku_test = ''
-  if settings.ON_HEROKU:
-    heroku_test = '(on heroku)'
-    
   context = {'login_cta' : login_cta,
              'total_events' : total_events,
              'total_events_attending' : total_events_attending,

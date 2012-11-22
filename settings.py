@@ -190,3 +190,8 @@ ON_HEROKU=False
 
 if 'HEROKU_PRODUCTION_FLAG' in os.environ:
   ON_HEROKU=True
+  DEFAULT_FROM_USER = 'stephen.khuu@gmail.com'#
+  EMAIL_USE_TLS = True
+  EMAIL_HOST='smtp.gmail.com'#
+  EMAIL_HOST_USER = 'stephen.khuu@gmail.com'
+  EMAIL_HOST_PASSWORD = 'gmailR0cks'
