@@ -183,15 +183,5 @@ PASSWORD_HASHERS = (
 
 #Uncomment For Heroku deployment
 
-if 'HEROKU_PRODUCTION_FLAG' in os.environ:
-
-  DATABASES = {
-    'default': {
-      'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-      'NAME': 'd2kln441j09e5l',                      # Or path to database file if using sqlite3.
-      'USER': 'ldvhoheibiacuf',                      # Not used with sqlite3.
-      'PASSWORD': 'LHruQpoLiawG3PIZ-JFT4NjG6S',                  # Not used with sqlite3.
-      'HOST': 'ec2-54-243-139-234.compute-1.amazonaws.com',                      # Set to empty string for localhost. Not used with sqlite3.
-      'PORT': '5432',                      # Set to empty string for default. Not used with sqlite3.
-    }
-  }
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
