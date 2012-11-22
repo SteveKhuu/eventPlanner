@@ -92,7 +92,8 @@ class Task(models.Model):
     
   def save(self, *args, **kwargs):
     attendee, created = Attendee.objects.get_or_create(user=self.user, event=self.event, is_managing=True)
-    self.inform_task_to_attendee()
+    if not self.pk:
+      self.inform_task_to_attendee()
     super(Task, self).save(*args, **kwargs)
     
 class Comment(models.Model):
