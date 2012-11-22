@@ -182,5 +182,5 @@ PASSWORD_HASHERS = (
 )
 
 #Uncomment For Heroku deployment
-#import dj_database_url
-#DATABASES['default'] =  dj_database_url.config()
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
