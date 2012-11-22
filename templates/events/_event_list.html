@@ -13,7 +13,7 @@
         <span class="event_field"><h3>{{ event.name }}</h3></span>
         <span class="event_field">{{event.description}}</span>
         <!-- Include time and {{ event.attendees.count }} -->
-        <span class="event_field">{{event.start_datetime|naturalday}}, {{event.start_datetime|time}} to {{event.end_datetime|naturalday}}, {{event.end_datetime|time}}</span>
+        <span class="event_field date_field">{{event.start_datetime|naturalday}}, {{event.start_datetime|time}} to {{event.end_datetime|naturalday}}, {{event.end_datetime|time}}</span>
         <div class="event_end">
             
             {% if user.is_authenticated %}
