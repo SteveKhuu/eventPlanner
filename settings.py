@@ -5,6 +5,7 @@ except ImportError:
 
 # Django settings for eventPlanner project.
 import os
+from os import environ
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 DEBUG = True
@@ -189,14 +190,17 @@ PASSWORD_HASHERS = (
 ON_HEROKU=False
 
 if 'HEROKU_PRODUCTION_FLAG' in os.environ:
+  
+  env = lambda e, d: environ[e] if environ.has_key(e) else d
+
   ON_HEROKU=True
-  EMAIL_HOST='smtp.gmail.com'#
-  EMAIL_HOST_USER = 'stephen.khuu@gmail.com'
-  EMAIL_HOST_PASSWORD = 'gmailR0cks'
-  EMAIL_PORT = 587
-  EMAIL_USE_TLS = True 
-  DEFAULT_FROM_EMAIL = 'stephen.khuu@gmail.com'#
-  SERVER_EMAIL = 'stephen.khuu@gmail.com'#
+  EMAIL_HOST=env('EMAIL_HOST', 'smtp.gmail.com')
+  EMAIL_HOST_USER = env('EMAIL_HOST_USER', '')
+  EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', '')
+#  EMAIL_PORT = 587
+#  EMAIL_USE_TLS = True 
+#  DEFAULT_FROM_EMAIL = 'stephen.khuu@gmail.com'#
+#  SERVER_EMAIL = 'stephen.khuu@gmail.com'#
   TEST_EMAIL_LIST= ['Stephen_Khuu@epam.com', 'g7khuust@gmail.com']
   TEST_GROUP_EMAIL_LIST = ['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com']
   DIRECTORS_EMAIL_LIST = ['Jason_Lee@epam.com', 'Derek_Mitchell@epam.com', 'Mark_Rechsteiner@epam.com', 'Kirk_Robinson@epam.com', 'Valentina_Hedow@epam.com']
