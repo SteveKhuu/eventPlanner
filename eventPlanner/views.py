@@ -6,6 +6,7 @@ Created on Nov 13, 2012
 
 import icalendar
 import random
+import sys
 from icalendar import Calendar, Event
 
 from django import forms
@@ -268,7 +269,9 @@ def send_email(request, event_id):
     context['title'] = 'Success!'
     context['message'] = 'Invitation was successfully sent!'
     return render(request, 'events/send_done.html', context)
-  except:
+  except :
+    e = sys.exc_info()[0]
+    print e
     context['title'] = 'Error!'
     context['message'] = 'There was an error sending your invitation.'
     return render(request, 'events/send_done.html', context)
