@@ -49,8 +49,10 @@
           <li>
              <a class="btn btn-success" href="{% url create_event %}"><i class="icon-pencil icon-white"></i> Create An Event</a>
           </li>
-          <li style="float:right;margin-right:5px;">
+          <li class="login_header">
+            <br />
             {% trans "Logged in" %}: {{ user.username }} 
+            <br />
             (<a href="{% url auth_logout %}" class="inline-block">{% trans "Log out" %}</a>
             <a href="{% url auth_password_change %}" class="inline-block">{% trans "Change password" %}</a>)
           </li>

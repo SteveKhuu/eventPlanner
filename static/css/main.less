@@ -13,6 +13,15 @@
   .inline-block {
     display: inline-block;
   }
+  
+  .login_header {
+    float:right;
+    margin-right:5px;
+    
+    br {
+      display: none;
+    }
+  }
 } 
 
 .container-narrow {
@@ -107,7 +116,16 @@ ul {
 
 @media (orientation:portrait) and (max-device-width: 640px) { 
     .date_field {
-      margin-bottom: 35px;
+      margin-bottom: 40px;
+    }
+    
+    .login_header {
+      float:left;
+      margin-right:5px;
+      
+      br {
+        display: block;
+      }
     }
 }
 
