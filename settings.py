@@ -201,6 +201,6 @@ if 'HEROKU_PRODUCTION_FLAG' in os.environ:
 #  EMAIL_USE_TLS = True 
 #  DEFAULT_FROM_EMAIL = 'stephen.khuu@gmail.com'#
 #  SERVER_EMAIL = 'stephen.khuu@gmail.com'#
-  TEST_EMAIL_LIST= ['Stephen_Khuu@epam.com', 'g7khuust@gmail.com']
+  TEST_EMAIL_LIST= ['Tom_Klimovski@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com', 'Jason_Lee@epam.com', 'Gino_Marckx@epam.com']#['Stephen_Khuu@epam.com', 'g7khuust@gmail.com']#
   TEST_GROUP_EMAIL_LIST = ['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com']
-  FULL_EMAIL_LIST = ['Tom_Klimovski@epam.com', 'Osman_Ishaq@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com', 'Jason_Lee@epam.com', 'Gino_Marckx@epam.com', 'Derek_Mitchell@epam.com', 'Mark_Rechsteiner@epam.com', 'Kirk_Robinson@epam.com', 'Valentina_Hedow@epam.com']
+  FULL_EMAIL_LIST = ['Tom_Klimovski@epam.com', 'Frank_Vanderzwet@epam.com', 'Stephen_Khuu@epam.com', 'Jason_Lee@epam.com', 'Gino_Marckx@epam.com', 'Derek_Mitchell@epam.com', 'Mark_Rechsteiner@epam.com', 'Kirk_Robinson@epam.com', 'Valentina_Hedow@epam.com']
