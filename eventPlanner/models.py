@@ -91,7 +91,9 @@ class Task(models.Model):
         print 'There was an error sending your invitation.'
     
   def save(self, *args, **kwargs):
-    attendee, created = Attendee.objects.get_or_create(user=self.user, event=self.event, is_managing=True)
+    attendee, created = Attendee.objects.get_or_create(user=self.user, event=self.event)
+    attendee.is_managing = True
+    attendee.save()
     if not self.pk:
       self.inform_task_to_attendee()
     super(Task, self).save(*args, **kwargs)
