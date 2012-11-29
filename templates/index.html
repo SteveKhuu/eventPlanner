@@ -10,10 +10,10 @@
        var initialValue = 0;
        inloop();
        function inloop() {
-           ele.html(initialValue += 1);
            if (initialValue == total_events) {
                return;
            }
+           ele.html(initialValue += 1);
            clr = setTimeout(inloop, 60); 
        }
    });
